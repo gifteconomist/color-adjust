@@ -3,48 +3,24 @@ color = module.exports;
 
 /* RGB FUNCTIONS (rgb functions output rgb values) */
 
-color.getR = function(color) {
-  if (getColorType(color) === ('rgb')) {
-    var rgb = color;
-  }
-  if (getColorType(color) === ('hex')) {
-    var rgb = this.hex2rgb(color);
-  }
-  if (getColorType(color) === ('hsl')) {
-    var rgb = this.hsl2rgb(color);
-  }
-  rgbA = parseRGB(rgb);
-  rgbR = rgbA[0];
+color.red = function(color) {
+  var rgb = color2rgb(color);
+  var rgbA = parseRGB(rgb);
+  var rgbR = rgbA[0];
   console.log(rgbR);
   return rgbR;
 }
-color.getG = function(color) {
-  if (getColorType(color) === ('rgb')) {
-    var rgb = color;
-  }
-  if (getColorType(color) === ('hex')) {
-    var rgb = this.hex2rgb(color);
-  }
-  if (getColorType(color) === ('hsl')) {
-    var rgb = this.hsl2rgb(color);
-  }
-  rgbA = parseRGB(rgb);
-  rgbG = rgbA[1];
+color.green = function(color) {
+  var rgb = color2rgb(color);
+  var rgbA = parseRGB(rgb);
+  var rgbG = rgbA[1];
   console.log(rgbG);
   return rgbG;
 }
-color.getB = function(color) {
-  if (getColorType(color) === ('rgb')) {
-    var rgb = color;
-  }
-  if (getColorType(color) === ('hex')) {
-    var rgb = this.hex2rgb(color);
-  }
-  if (getColorType(color) === ('hsl')) {
-    var rgb = this.hsl2rgb(color);
-  }
-  rgbA = parseRGB(rgb);
-  rgbB = rgbA[2];
+color.blue = function(color) {
+  var rgb = color2rgb(color);
+  var rgbA = parseRGB(rgb);
+  var rgbB = rgbA[2];
   console.log(rgbB);
   return rgbB;
 }
@@ -64,6 +40,18 @@ function parseRGB (rgb) {
     console.log('not rgb or rgba');
     return null;
   }
+}
+function color2rgb (color) {
+  if (getColorType(color) === ('rgb')) {
+    var rgb = color;
+  }
+  if (getColorType(color) === ('hex')) {
+    var rgb = this.hex2rgb(color);
+  }
+  if (getColorType(color) === ('hsl')) {
+    var rgb = this.hsl2rgb(color);
+  }
+  return rgb;
 }
 
 /* HEX FUNCTIONS (hex functions output hex values) */
@@ -86,50 +74,87 @@ function parseHEX (hex) {
 
 /* HSL FUNCTIONS */
 
-color.getH = function(color) {
-  if (getColorType(color) === ('rgb')) {
-    var hsl = this.rgb2hsl(color);
-  }
-  if (getColorType(color) === ('hex')) {
-    var hsl = this.hex2hsl(color);
-  }
-  if (getColorType(color) === ('hsl')) {
-    var hsl = color;
-  }
-  hslA = parseHSL(hsl);
-  hslH = hslA[0];
+color.hue = function(color) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var hslH = hslA[0];
   console.log(hslH);
   return hslH;
 }
-color.getS = function(color) {
-  if (getColorType(color) === ('rgb')) {
-    var hsl = this.rgb2hsl(color);
-  }
-  if (getColorType(color) === ('hex')) {
-    var hsl = this.hex2hsl(color);
-  }
-  if (getColorType(color) === ('hsl')) {
-    var hsl = color;
-  }
-  hslA = parseHSL(hsl);
-  hslS = hslA[1];
+color.saturation = function(color) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var hslS = hslA[1];
   console.log(hslS);
   return hslS;
 }
-color.getL = function(color) {
-  if (getColorType(color) === ('rgb')) {
-    var hsl = this.rgb2hsl(color);
-  }
-  if (getColorType(color) === ('hex')) {
-    var hsl = this.hex2hsl(color);
-  }
-  if (getColorType(color) === ('hsl')) {
-    var hsl = color;
-  }
-  hslA = parseHSL(hsl);
-  hslL = hslA[2];
+color.lightness = function(color) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var hslL = hslA[2];
   console.log(hslL);
   return hslL;
+}
+color.adjustHue = function(color, degrees) {
+ var hsl = color2hsl(color);
+ var hslA = parseHSL(hsl);
+ var h = parseFloat(hslA[0]);
+ h = h + degrees;
+ if (h < 0 || h > 360) {
+   h = 0;
+ }
+ var s = (hslA[1] * 100) + "%";
+ var l = (hslA[2] * 100) + "%";
+ hsl = "hsl(" + h + "," + s + "," + l + ")";
+ return hsl;
+}
+color.adjustSaturation = function(color, amount) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var s = hslA[1];
+  s = s + (s * (amount/100));
+  if (s >= 1) { s = 1 };
+  var h = hslA[0];
+  s = Math.round(s * 100) + "%";
+  var l = (hslA[2] * 100) + "%";
+  hsl = "hsl(" + h + "," + s + "," + l + ")";
+  return hsl;
+}
+color.adjustLightness = function(color, amount) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var l = hslA[2];
+  l = l + (l * (amount/100));
+  if (l >= 1) { l = 1 };
+  h = hslA[0];
+  s = (hslA[1] * 100) + "%";
+  l = Math.round(l * 100) + "%";
+  hsl = "hsl(" + h + "," + s + "," + l + ")";
+  console.log(hsl);
+  return hsl;
+}
+color.grayscale = function(color) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var h = parseFloat(hslA[0]);
+  var s = 0 + "%";
+  var l = (hslA[2] * 100) + "%";
+  hsl = "hsl(" + h + "," + s + "," + l + ")";
+  return hsl;
+}
+color.complement = function(color) {
+  var hsl = color2hsl(color);
+  var hslA = parseHSL(hsl);
+  var h = parseFloat(hslA[0]);
+  if (h <= 180) {
+    h = h + 180;
+  } else {
+    h = h - 180;
+  }
+  var s = (hslA[1] * 100) + "%";
+  var l = (hslA[2] * 100) + "%";
+  hsl = "hsl(" + h + "," + s + "," + l + ")";
+  return hsl;
 }
 
 /** hsl helper functions **/
@@ -139,12 +164,22 @@ function parseHSL (hsl) {
     var h = hslA[1];
     var s = hslA[2] * 1/100;
     var l = hslA[3] * 1/100;
-    console.log(h,s,l);
     return [h,s,l];
   } else {
-    console.log('not hsl');
     return null;
   }
+}
+function color2hsl (c) {
+  if (getColorType(c) === ('rgb')) {
+    var hsl = color.rgb2hsl(c);
+  }
+  if (getColorType(c) === ('hex')) {
+    var hsl = color.hex2hsl(c);
+  }
+  if (getColorType(c) === ('hsl')) {
+    var hsl = c;
+  }
+  return hsl;
 }
 
 /* CONVERT FUNCTIONS */
@@ -202,10 +237,10 @@ color.rgb2hsl = function (rgb) {
     if (r === g && g === b) {
       var h = 0;
     }
+    h = Math.round(h);
     s = Math.round(s * 100) + "%";
     l = Math.round(l * 100) + "%";
     var hsl = "hsl(" + h + "," + s+ "," + l + ")";
-    console.log("hsl:", hsl);
     return hsl;
   }
   return null;
@@ -261,13 +296,11 @@ color.hsl2rgb = function (hsl) {
 color.hex2hsl = function (hex) {
   var rgb = this.hex2rgb(hex);
   var hsl = this.rgb2hsl(rgb);
-  console.log(hsl);
   return hsl;
 }
 color.hsl2hex = function (hsl) {
   var rgb = this.hsl2rgb(hsl);
   var hex = this.rgb2hex(rgb);
-  console.log(hex);
   return hex;
 }
 

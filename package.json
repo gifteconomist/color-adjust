@@ -1,20 +1,20 @@
 {
-  "name": "color-functions",
+  "name": "color-adjust",
   "version": "1.0.0",
-  "description": "",
+  "description": "Color library that provides functions for manipulating and returning parameters of RGB and HSL color-codes and converts between RGB, hex, and HSL",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "index.js"
+    "start": "node test.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gifteconomist/color-functions.git"
+    "url": "git+https://github.com/gifteconomist/color-adjust.git"
   },
-  "author": "",
+  "author": "Grace Poetzinger <gracepoetzinger@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gifteconomist/color-functions/issues"
+    "url": "https://github.com/gifteconomist/color-adjust/issues"
   },
-  "homepage": "https://github.com/gifteconomist/color-functions#readme"
+  "homepage": "https://github.com/gifteconomist/color-adjust#readme"
 }

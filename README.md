@@ -1,7 +1,5 @@
 # color-adjust
 
-[![Build Status](https://travis-ci.org/Qix-/color-convert.svg?branch=master)](https://travis-ci.org/Qix-/color-convert)
-
 Javascript library for color conversion and channel manipulation of RGB, HEX and HSL
 
 ## Install

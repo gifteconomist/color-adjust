@@ -1,3 +1,3 @@
-var color = require('./color');
+var Color = require('./color');
 
-module.exports = color;
+module.exports = Color;

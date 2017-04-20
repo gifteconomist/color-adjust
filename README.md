@@ -17,7 +17,6 @@ color.rgb2hex();
 ```
 
 ## Functions
-```js
 * red()
 * green()
 * blue()
@@ -30,4 +29,3 @@ color.rgb2hex();
 * grayscale()
 * complement()
 * rgb2hex(), hex2rgb(), rgb2hsl(), hsl2rgb(), hex2hsl(), hslhex()
-```

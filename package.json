@@ -1,6 +1,6 @@
 {
   "name": "color-adjust",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Color library that provides functions for manipulating and returning parameters of RGB and HSL color-codes and converts between RGB, hex, and HSL",
   "main": "index.js",
   "scripts": {

@@ -2,6 +2,8 @@ function Color (c) {
   this.color = c;
 };
 
+var formatError = this.color + ' Is not a properly formatted color';
+
 Color.prototype = {
 
   /* RGB FUNCTIONS (rgb functions output rgb values) */
@@ -12,7 +14,7 @@ Color.prototype = {
       var rgbA = this._parseRGB(rgb);
       var rgbR = rgbA[0];
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
     return rgbR;
   },
@@ -23,7 +25,7 @@ Color.prototype = {
       var rgbA = this._parseRGB(rgb);
       var rgbG = rgbA[1];
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
     return rgbG;
   },
@@ -34,20 +36,20 @@ Color.prototype = {
       var rgbA = this._parseRGB(rgb);
       var rgbB = rgbA[2];
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
     return rgbB;
   },
 
   /* HSL FUNCTIONS */
   hue: function() {
-    var color = Color.color;
+    var color = this.color;
     if (this._color2hsl(color)) {
       var hsl = this._color2hsl(color);
       var hslA = this._parseHSL(hsl);
       var hslH = hslA[0];
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
     return hslH;
   },
@@ -58,7 +60,7 @@ Color.prototype = {
       var hslA = this._parseHSL(hsl);
       var hslS = hslA[1];
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
     return hslS;
   },
@@ -70,7 +72,7 @@ Color.prototype = {
       var hslL = hslA[2];
       return hslL;
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
   },
 
@@ -86,10 +88,12 @@ Color.prototype = {
       var l = (hslA[2] * 100) + "%";
       hsl = "hsl(" + h + "," + s + "," + l + ")";
     } else {
-      return new Error(color + ' Is not a properly formatted color');
+      return new Error(formatError);
     }
-    return hsl;
+    this.color = hsl;
+    return this;
   },
+
   adjustSaturation: function(amount) {
    var color = this.color;
    if (this._color2hsl(color)) {
@@ -103,9 +107,10 @@ Color.prototype = {
      var l = (hslA[2] * 100) + "%";
      hsl = "hsl(" + h + "," + s + "," + l + ")";
    } else {
-     return new Error(color + ' Is not a properly formatted color');
+     return new Error(formatError);
    }
-   return hsl;
+   this.color = hsl;
+   return this;
   },
   adjustLightness: function(amount) {
    var color = this.color;
@@ -120,9 +125,10 @@ Color.prototype = {
      l = Math.round(l * 100) + "%";
      hsl = "hsl(" + h + "," + s + "," + l + ")";
    } else {
-     return new Error(color + ' Is not a properly formatted color');
+     return new Error(formatError);
    }
-   return hsl;
+   this.color = hsl;
+   return this;
   },
   grayscale: function() {
    var color = this.color;
@@ -134,9 +140,10 @@ Color.prototype = {
      var l = (hslA[2] * 100) + "%";
      hsl = "hsl(" + h + "," + s + "," + l + ")";
    } else {
-     return new Error(color + ' Is not a properly formatted color');
+     return new Error(formatError);
    }
-   return hsl;
+   this.color = hsl;
+   return this;
   },
   complement: function() {
    var color = this.color;
@@ -153,9 +160,10 @@ Color.prototype = {
      var l = (hslA[2] * 100) + "%";
      hsl = "hsl(" + h + "," + s + "," + l + ")";
    } else {
-     return new Error(color + ' Is not a properly formatted color');
+     return new Error(formatError);
    }
-   return hsl;
+   this.color = hsl;
+   return this;
   },
 
   /* CONVERT FUNCTIONS */
@@ -170,11 +178,13 @@ Color.prototype = {
     hexG = hexG.length == 1 ? '0' + hexG : hexG;
     hexB = hexB.length == 1 ? '0' + hexB : hexB;
     var hex = '#' + hexR + hexG + hexB;
-    return hex;
   } else {
-    return null;
+    return new Error(formatError);
   }
+  this.color = hex;
+  return this;
   },
+
   hex2rgb: function () {
     var hex = this.color;
     if (this._parseHEX(hex)) {
@@ -183,10 +193,11 @@ Color.prototype = {
       var g = parseInt(result[2], 16);
       var b = parseInt(result[3], 16);
       var rgb = 'rgb(' + r + ',' + g + ',' + b + ')';
-      return rgb;
     } else {
-    return null;
+      return new Error(formatError);
     }
+    this.color = rgb;
+    return this;
   },
   rgb2hsl: function () {
     var rgb = this.color;
@@ -217,9 +228,11 @@ Color.prototype = {
       s = Math.round(s * 100) + "%";
       l = Math.round(l * 100) + "%";
       var hsl = "hsl(" + h + "," + s+ "," + l + ")";
-      return hsl;
+    } else {
+      return new Error(formatError);
     }
-    return null;
+    this.color = hsl;
+    return this;
   },
   hsl2rgb: function () {
     var hsl = this.color;
@@ -265,21 +278,33 @@ Color.prototype = {
       g = Math.round(g);
       b = Math.round(b);
       var rgb = 'rgb(' + r + ',' + g + ',' + b + ')';
-      return rgb;
+    } else {
+      return new Error(formatError);
     }
-    return null;
+    this.color = rgb;
+    return this;
   },
   hex2hsl: function () {
     var hex = this.color;
-    var rgb = this.hex2rgb(hex);
-    var hsl = this.rgb2hsl(rgb);
-    return hsl;
+    if (this._parseHEX(hex)) {
+      var rgb = this.hex2rgb(hex);
+      var hsl = this.rgb2hsl(rgb);
+    } else {
+      return new Error(formatError);
+    }
+    this.color = hsl;
+    return this;
   },
   hsl2hex: function () {
     var hsl = this.color;
-    var rgb = this.hsl2rgb(hsl);
-    var hex = this.rgb2hex(rgb);
-    return hex;
+    if (this._parseHSL(hsl)) {
+      var rgb = this.hsl2rgb(hsl);
+      var hex = this.rgb2hex(rgb);
+    } else {
+      return new Error(formatError);
+    }
+    this.color = hex;
+    return this;
   },
   _getColorType (c) {
     if (this._parseRGB(c)) {

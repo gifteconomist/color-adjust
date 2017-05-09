@@ -9,8 +9,9 @@ Color.prototype = {
   /* RGB FUNCTIONS (rgb functions output rgb values) */
   red: function() {
     var color = this.color;
-    if (this._color2rgb(color)) {
-      var rgb = this._color2rgb(color);
+    var rgb = this._color2rgb(color);
+    console.log('rgb', rgb);
+    if (rgb) {
       var rgbA = this._parseRGB(rgb);
       var rgbR = rgbA[0];
     } else {
@@ -20,8 +21,8 @@ Color.prototype = {
   },
   green: function() {
     var color = this.color;
-    if (this.color2hsl(color)) {
-      var rgb = this._color2rgb(color);
+    var rgb = this._color2rgb(color);
+    if (rgb) {
       var rgbA = this._parseRGB(rgb);
       var rgbG = rgbA[1];
     } else {
@@ -31,8 +32,8 @@ Color.prototype = {
   },
   blue: function() {
     var color = this.color;
-    if (this.color2hsl(color)) {
-      var rgb = this._color2rgb(color);
+    var rgb = this._color2rgb(color);
+    if (rgb) {
       var rgbA = this._parseRGB(rgb);
       var rgbB = rgbA[2];
     } else {
@@ -44,8 +45,8 @@ Color.prototype = {
   /* HSL FUNCTIONS */
   hue: function() {
     var color = this.color;
-    if (this._color2hsl(color)) {
-      var hsl = this._color2hsl(color);
+    var hsl = this._color2hsl(color);
+    if (hsl) {
       var hslA = this._parseHSL(hsl);
       var hslH = hslA[0];
     } else {
@@ -55,8 +56,8 @@ Color.prototype = {
   },
   saturation: function() {
     var color = this.color;
-    if (this._color2hsl(color)) {
-      var hsl = this._color2hsl(color);
+    var hsl = this._color2hsl(color);
+    if (hsl) {
       var hslA = this._parseHSL(hsl);
       var hslS = hslA[1];
     } else {
@@ -66,8 +67,8 @@ Color.prototype = {
   },
   lightness: function() {
     var color = this.color;
-    if (this._color2hsl(color)) {
-      var hsl = this._color2hsl(color);
+    var hsl = this._color2hsl(color);
+    if (hsl) {
       var hslA = this._parseHSL(hsl);
       var hslL = hslA[2];
       return hslL;
@@ -78,8 +79,8 @@ Color.prototype = {
 
   adjustHue: function(degrees) {
     var color = this.color;
-    if (this._color2hsl(color)) {
-      var hsl = this._color2hsl(color);
+    var hsl = this._color2hsl(color);
+    if (hsl) {
       var hslA = this._parseHSL(hsl);
       var h = parseFloat(hslA[0]);
       degrees ?  h = h + degrees : h = h;
@@ -96,8 +97,8 @@ Color.prototype = {
 
   adjustSaturation: function(amount) {
    var color = this.color;
-   if (this._color2hsl(color)) {
-     var hsl = this._color2hsl(color);
+   var hsl = this._color2hsl(color);
+   if (hsl) {
      var hslA = this._parseHSL(hsl);
      var s = hslA[1];
      s = s + (s * (amount/100));
@@ -112,10 +113,11 @@ Color.prototype = {
    this.color = hsl;
    return this;
   },
+  
   adjustLightness: function(amount) {
    var color = this.color;
-   if (this._color2hsl(color)) {
-     var hsl = this._color2hsl(color);
+   var hsl = this._color2hsl(color);
+   if (hsl) {
      var hslA = this._parseHSL(hsl);
      var l = hslA[2];
      l = l + (l * (amount/100));
@@ -132,8 +134,8 @@ Color.prototype = {
   },
   grayscale: function() {
    var color = this.color;
-   if (this._color2hsl(color)) {
-     var hsl = this._color2hsl(color);
+   var hsl = this._color2hsl(color);
+   if (hsl) {
      var hslA = this._parseHSL(hsl);
      var h = parseFloat(hslA[0]);
      var s = 0 + "%";
@@ -147,8 +149,8 @@ Color.prototype = {
   },
   complement: function() {
    var color = this.color;
-   if (this._color2hsl(color)) {
-     var hsl = this._color2hsl(color);
+   var hsl = this._color2hsl(color);
+   if (hsl) {
      var hslA = this._parseHSL(hsl);
      var h = parseFloat(hslA[0]);
      if (h <= 180) {
@@ -336,6 +338,8 @@ Color.prototype = {
   _color2rgb: function (c) {
     if (this._getColorType(c) === ('rgb')) {
       var rgb = c;
+      console.log('in rgb', c);
+      return rgb;
     }
     else if (this._getColorType(c) === ('hex')) {
       var rgb = this.hex2rgb(c);
@@ -345,7 +349,7 @@ Color.prototype = {
     } else {
       return null;
     }
-    return rgb;
+    return rgb.color;
   },
 
   /** hsl helper functions **/
@@ -369,10 +373,11 @@ Color.prototype = {
     }
     else if (this._getColorType(c) === ('hsl')) {
       var hsl = c;
+      return hsl;
     } else {
       return null;
     }
-    return hsl;
+    return hsl.color;
   },
 
   /** hex helper functions **/

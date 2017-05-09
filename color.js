@@ -10,7 +10,6 @@ Color.prototype = {
   red: function() {
     var color = this.color;
     var rgb = this._color2rgb(color);
-    console.log('rgb', rgb);
     if (rgb) {
       var rgbA = this._parseRGB(rgb);
       var rgbR = rgbA[0];
@@ -113,7 +112,7 @@ Color.prototype = {
    this.color = hsl;
    return this;
   },
-  
+
   adjustLightness: function(amount) {
    var color = this.color;
    var hsl = this._color2hsl(color);
@@ -216,7 +215,7 @@ Color.prototype = {
         var s = d/(1 - Math.abs(2*l-1));
       } else {
         var s = 0;
-      }
+      } 
       if (g >= b) {
         var h = Math.acos((r - .5*g - .5*b) / Math.sqrt(r*r + g*g + b*b - r*g - r*b - g*b)) * (180/Math.PI);
 
@@ -338,7 +337,6 @@ Color.prototype = {
   _color2rgb: function (c) {
     if (this._getColorType(c) === ('rgb')) {
       var rgb = c;
-      console.log('in rgb', c);
       return rgb;
     }
     else if (this._getColorType(c) === ('hex')) {
